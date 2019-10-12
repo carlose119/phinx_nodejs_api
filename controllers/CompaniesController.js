@@ -2,46 +2,77 @@
 import db from '../config/database'
 
 class CompaniesController {
-    static index(req, res){
-        var sql = "select * from companies"
-        db.all(sql, (err, companies) => {
-            if (err) {
-              res.status(500).json({'error': err.message});
-              return;
-            }
-            res.json(companies)
-          });
-    }
-
-    static store(req, res){
-        const { name, legal_name, email, phone, address } = req.body
-        const SQL = 'INSERT INTO companies (name, legal_name, email, phone, address, create_at, upated_at) VALUES (?,?,?,?,?,?,?)'
-        const params = [name, legal_name, email, phone, address, "2019-10-11 17:29:00", "2019-10-11 17:29:00"]        
-        db.run(SQL, params, function (err) {
-            if (err){
-                res.status(500).json({'error': err.message})
+    static index(request, response){
+        let sql = "select * from companies order by companies.name asc"
+        db.query(sql, (error, results) => {
+            if (error) {
+                response.status(500).json({'error': error.message});
                 return;
             }
-            req.body.id = this.lastID
-            res.json({
-                'company': req.body
-            })
+            response.status(200).json(results.rows)
         })
     }
 
-    static details(req, res){
-        var sql = "select * from companies where id = ?"
-        
-        db.get(sql, req.params.id, (err, company) => {
-            if (err) {
-              res.status(500).json({'error': err.message});
-              return;
+    static add(request, response){
+        const { name, legal_name, email, phone, address } = request.body
+        const SQL = 'INSERT INTO companies (name, legal_name, email, phone, address, create_at, upated_at) VALUES ($1,$2,$3,$4,$5,$6,$7)'
+        const date = new Date()  
+        const timestamp = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+        const params = [name, legal_name, email, phone, address, timestamp, timestamp]        
+        db.query(SQL, params, (error, results) => {
+            if (error) {
+                response.status(500).json({'error': error.message});
+                return;
             }
-            res.json({
-                company
-            })
-        });
+            response.status(201).send(`Company added with ID: ${results.insertId}`)
+        })
     }
+
+    static view(request, response){
+        const id = request.params.id
+        const sql = "select * from companies where id = $1"
+        
+        db.query(sql, [id], (error, results) => {
+            if (error) {
+                response.status(500).json({'error': error.message});
+                return;
+            }
+            response.status(200).json(results.rows[0])
+        })
+    }
+
+    static delete(request, response) {
+        const id = request.params.id
+        const sql = "DELETE FROM companies WHERE id = $1"
+      
+        db.query(sql, [id], (error, results) => {
+            if (error) {
+                response.status(500).json({'error': error.message});
+                return;
+            }
+            response.status(200).send(`Company deleted with ID: ${id}`)
+        })
+    }
+
+    static edit(request, response) {
+        const id = request.params.id
+        const { name, legal_name, email, phone, address } = request.body
+        const sql = "UPDATE companies SET name = $1, legal_name = $2, email = $3, phone = $4, address = $5, upated_at = $6 WHERE id = $7"
+        const date = new Date()  
+        const timestamp = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+        const params = [name, legal_name, email, phone, address, timestamp, id]   
+
+        db.query(
+            sql, params, (error, results) => {
+                if (error) {
+                    response.status(500).json({'error': error.message});
+                    return;
+                }
+            response.status(200).send(`Company modified with ID: ${id}`)
+          }
+        )
+    }
+    
 }
 
 export default CompaniesController

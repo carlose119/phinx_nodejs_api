@@ -7,9 +7,15 @@ const router = new Router()
 router.get('/companies', CompaniesController.index)
 
 // Create a new company
-router.post('/companies', CompaniesController.store)
+router.post('/companies', CompaniesController.add)
 
 // Get company details
-router.get('/companies/:id', CompaniesController.details)
+router.get('/companies/:id', CompaniesController.view)
+
+// Deleted company
+router.delete('/companies/:id', CompaniesController.delete)
+
+// Update company
+router.put('/companies/:id', CompaniesController.edit)
 
 export default router

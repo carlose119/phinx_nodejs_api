@@ -1,33 +1,32 @@
-import sqlite from 'sqlite3'
+const { Client } = require('pg')
 
-const DBSOURCE = `db_${process.env.NODE_ENV}.sqlite`
+const connectionData = {
+    user: 'postgres',
+    host: 'localhost',
+    database: 'phinx_nodejs_api',
+    password: '12345',
+    port: 5432,
+  }
 
-let db = new sqlite.Database(DBSOURCE, (err) => {
-    if(err) {
-        console.log(err.message)
-        throw err
-    } else {
-        console.log('Connected to SQLite')
-        db.run(`CREATE TABLE companies (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name text,
-            legal_name text, 
-            email text, 
-            phone text, 
-            address text,
-            create_at timestamp,
-            upated_at timestamp
-            )`,
-        (err) => {
-            if (err) {
-                // Table already created
-            }else{
-                // Table just created, creating some rows
-                var insert = 'INSERT INTO companies (name, legal_name, email, phone, address, create_at, upated_at) VALUES (?,?,?,?,?,?,?)'
-                db.run(insert, ["Phinx","Phinx Lab CA","info@phix.com","12345678","Argentina", "2019-10-11 17:29:00", "2019-10-11 17:29:00"])
-            }
-        });
-    }
-})
+const db = new Client(connectionData)
+
+db.connect()
+
+db.query(`CREATE TABLE IF NOT EXISTS companies (
+            id SERIAL PRIMARY KEY, 
+            name VARCHAR(255), 
+            legal_name VARCHAR(255), 
+            email VARCHAR(255), 
+            phone VARCHAR(255), 
+            address VARCHAR(255), 
+            create_at timestamp, 
+            upated_at timestamp)`
+        )
+    .then(response => {
+        console.log('Init Table Companies')
+    })
+    .catch(err => {
+        db.end()
+    })
 
 export default db
