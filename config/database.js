@@ -26,7 +26,27 @@ db.query(`CREATE TABLE IF NOT EXISTS companies (
         console.log('Init Table Companies')
     })
     .catch(err => {
-        db.end()
+        console.log('Error Init Table Companies:' + err.message)
+    })
+
+db.query(`CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY, 
+        company_id INT4, 
+        full_name VARCHAR(255), 
+        phone VARCHAR(255), 
+        age INT4, 
+        email VARCHAR(255),         
+        position VARCHAR(255), 
+        address VARCHAR(255), 
+        create_at timestamp, 
+        upated_at timestamp,
+        FOREIGN KEY (company_id) REFERENCES companies (id))`
+    )
+    .then(response => {
+        console.log('Init Table users')
+    })
+    .catch(err => {
+        console.log('Error Init Table users:' + err.message)
     })
 
 export default db
