@@ -30,6 +30,12 @@ router.delete('/companies/:id', CompaniesController.delete)
 router.put('/companies/:id', CompaniesController.edit)
 
 /**
+ * Filter company with created_at
+ * Param Format Y-m-d
+ */
+router.get('/companies/filter/:date', CompaniesController.filter)
+
+/**
  * Get the registered users
  */
 router.get('/users', UsersController.index)
