@@ -20,7 +20,7 @@ db.query(`CREATE TABLE IF NOT EXISTS companies (
             phone VARCHAR(255), 
             address VARCHAR(255), 
             create_at timestamp, 
-            upated_at timestamp)`
+            updated_at timestamp)`
         )
     .then(response => {
         console.log('Init Table Companies')
@@ -39,7 +39,7 @@ db.query(`CREATE TABLE IF NOT EXISTS users (
         position VARCHAR(255), 
         address VARCHAR(255), 
         create_at timestamp, 
-        upated_at timestamp,
+        updated_at timestamp,
         FOREIGN KEY (company_id) REFERENCES companies (id))`
     )
     .then(response => {
