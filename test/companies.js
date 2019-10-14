@@ -5,10 +5,13 @@ import faker from 'faker'
 
 chai.use(chaiHttp)
 
+const token = '28c8edde3d61a0411511d3b1866f0636'
+
 describe('GET /api/companies', () => {
     it('should GET all companies', (done) => {
         chai.request(app)
             .get('/api/companies')
+            .set("Authorization", token)
             .end((err, res) => {
                 expect(err).to.be.null
                 expect(res).to.have.status(200)
@@ -23,6 +26,7 @@ describe('GET /api/companies/:id', () => {
     it('should GET a companies', (done) => {
         chai.request(app)
             .get('/api/companies/1')
+            .set("Authorization", token)
             .end((err, res) => {
                 expect(err).to.be.null
                 expect(res).to.have.status(200)
@@ -44,6 +48,7 @@ describe('POST /api/companies', () => {
         }
         chai.request(app)
             .post('/api/companies')
+            .set("Authorization", token)
             .send(companies)
             .end((err, res) => {
                 expect(err).to.be.null
