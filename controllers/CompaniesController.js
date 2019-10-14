@@ -1,4 +1,3 @@
-'use strict'
 import db from '../config/database'
 
 class CompaniesController {

@@ -1,4 +1,3 @@
-'use strict'
 import db from '../config/database'
 
 class UsersController {
@@ -41,7 +40,20 @@ class UsersController {
 
     static view(request, response){
         const id = request.params.id
-        const sql = "select * from users inner join companies on companies.id = users.company_id where id = $1"
+        const sql = `select 
+                        users.*, 
+                        companies.name AS companyName,
+                        companies.legal_name AS companyLegalName,
+                        companies.email AS companyEmail,
+                        companies.phone AS companyPhone,
+                        companies.address AS companyAddress,
+                        companies.create_at AS companyCreateAt,
+                        companies.updated_at AS companyUpdateAt
+                    from 
+                        users 
+                        inner join companies on companies.id = users.company_id 
+                    where 
+                        users.id = $1`
         
         db.query(sql, [id], (error, results) => {
             if (error) {
@@ -80,6 +92,43 @@ class UsersController {
             response.status(200).send(`User modified with ID: ${id}`)
           }
         )
+    }
+
+    static token(request, response) {
+        const id = request.params.id
+        const md5 = require('md5')
+        const sql = `select 
+                        MD5(users.id::text) as id
+                    from 
+                        users                         
+                    where 
+                        users.id = $1`
+
+        db.query(sql, [id], (error, results) => {
+            if (error) {
+                response.status(500).json({'error': error.message});
+                return;
+            }
+
+            if(results.rows[0]) {
+                let token = md5(results.rows[0].id)
+                const sqlUpdate = "UPDATE users SET token = $1 WHERE id = $2"
+                db.query(
+                    sqlUpdate, [token, id], (error, results) => {
+                        if (error) {
+                            response.status(500).json({'error': error.message});
+                            return;
+                        }
+                    token = {token: token}
+                    response.status(200).json(token)
+                  }
+                )                
+            } else {
+                let token = {token: 'Token not provided'}
+                response.status(200).json(token)
+            }
+            
+        })        
     }
     
 }
