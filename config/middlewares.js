@@ -18,8 +18,8 @@ const middlewares = {
 
             if(results.rows[0]) {
                 return next();
-            } else {
-                res.redirect('/');
+            } else {                
+                res.status(500).send(`Required authorization token`)
             }
         })
         
