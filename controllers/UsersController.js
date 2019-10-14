@@ -41,7 +41,20 @@ class UsersController {
 
     static view(request, response){
         const id = request.params.id
-        const sql = "select * from users inner join companies on companies.id = users.company_id where id = $1"
+        const sql = `select 
+                        users.*, 
+                        companies.name AS companyName,
+                        companies.legal_name AS companyLegalName,
+                        companies.email AS companyEmail,
+                        companies.phone AS companyPhone,
+                        companies.address AS companyAddress,
+                        companies.create_at AS companyCreateAt,
+                        companies.updated_at AS companyUpdateAt
+                    from 
+                        users 
+                        inner join companies on companies.id = users.company_id 
+                    where 
+                        users.id = $1`
         
         db.query(sql, [id], (error, results) => {
             if (error) {
