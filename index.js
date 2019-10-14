@@ -15,6 +15,7 @@ app.use('/api',cors(corsOptions), routes)
 
 
 app.get('/', (req, res) =>  res.send('Welcome to PhinxNodeJsAPI'))
+//app.get('/apidoc', (req, res) =>  res.send('Welcome to PhinxNodeJsAPI'))
 app.listen(8000, () => console.log('http://localhost:8000'))
 
 
