@@ -37,7 +37,8 @@ db.query(`CREATE TABLE IF NOT EXISTS users (
         age INT4, 
         email VARCHAR(255),         
         position VARCHAR(255), 
-        address VARCHAR(255), 
+        address VARCHAR(255),
+        token VARCHAR(255), 
         create_at timestamp, 
         updated_at timestamp,
         FOREIGN KEY (company_id) REFERENCES companies (id))`
