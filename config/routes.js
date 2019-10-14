@@ -3,7 +3,7 @@ import CompaniesController from '../controllers/CompaniesController'
 import UsersController from '../controllers/UsersController'
 
 const router = new Router()
-const isLoggedIn = require('./middlewares').isLoggedIn
+const isLoggedIn = require('../middlewares/middlewares').isLoggedIn
 
 /**
  * Get the registered companies, require authorization token

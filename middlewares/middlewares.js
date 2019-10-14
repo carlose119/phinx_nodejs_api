@@ -1,6 +1,6 @@
-import db from './database'
+import db from '../config/database'
 
-const middlewares = {    
+const middleware = {    
     isLoggedIn : function (req, res, next) {
         const token = req.headers['authorization'];        
         const sql = `select 
@@ -19,10 +19,10 @@ const middlewares = {
             if(results.rows[0]) {
                 return next();
             } else {                
-                res.status(500).send(`Required authorization token`)
+                res.status(500).send(`Authorization token not valid`)
             }
         })
         
     }
 };
-module.exports = middlewares;
+module.exports = middleware;
