@@ -1,0 +1,8 @@
+{
+    "name": "PhinxNodeJsAPI documentation",
+    "version": "1.0.0",
+    "description": "PhinxNodeJsAPI is a test api for Phinx",
+    "template": {
+        "forceLanguage": "en"
+    }
+}
