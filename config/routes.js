@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import CompaniesController from '../controllers/CompaniesController'
 import UsersController from '../controllers/UsersController'
+import middlewares from '../middlewares/middlewares'
 
+const isLoggedIn = middlewares.isLoggedIn
 const router = new Router()
-const isLoggedIn = require('../middlewares/middlewares').isLoggedIn
 
 /**
  * @api {get} /companies List all companies
@@ -36,7 +37,7 @@ const isLoggedIn = require('../middlewares/middlewares').isLoggedIn
  *       "error": "message"
  *     }
  */
-router.get('/companies', isLoggedIn, CompaniesController.index)
+router.get('/companies', isLoggedIn, CompaniesController.list)
 
 /**
  * @api {post} /companies Register a new company
@@ -218,7 +219,7 @@ router.get('/companies/filter/:date', isLoggedIn, CompaniesController.filter)
  *       "error": "message"
  *     }
  */
-router.get('/users', isLoggedIn, UsersController.index)
+router.get('/users', isLoggedIn, UsersController.list)
 
 /**
  * @api {post} /users Register a new user

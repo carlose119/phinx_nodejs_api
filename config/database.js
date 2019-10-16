@@ -1,11 +1,13 @@
 const { Client } = require('pg')
+const config = require('config');
+const dbConfig = config.get('develop.dbConfig');
 
 const connectionData = {
-    user: 'postgres',
-    host: 'localhost',
-    database: 'phinx_nodejs_api',
-    password: '12345',
-    port: 5432,
+    user: dbConfig.user,
+    host: dbConfig.host,
+    database: dbConfig.database,
+    password: dbConfig.password,
+    port: dbConfig.port,
   }
 
 const db = new Client(connectionData)

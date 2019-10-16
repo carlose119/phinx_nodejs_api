@@ -60,5 +60,7 @@ typings/
 # next.js build output
 .next
 
+# ide directories
+.vscode/
 
 *.sqlite

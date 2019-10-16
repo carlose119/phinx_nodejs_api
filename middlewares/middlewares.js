@@ -10,17 +10,16 @@ const middleware = {
                     where
                         token = $1`
 
-        db.query(sql, [token], (error, results) => {
-            if (error) {
-                response.status(500).json({'error': error.message});
-                return;
-            }
-
+        db.query(sql, [token])
+        .then(results => {            
             if(results.rows[0]) {
                 return next();
             } else {                
                 res.status(500).send(`Authorization token not valid`)
             }
+        })
+        .catch(error => {
+            response.status(400).json({'error': error.message});
         })
         
     }
