@@ -1,6 +1,6 @@
 const { Client } = require('pg')
 const config = require('config');
-const dbConfig = config.get('develop.dbConfig');
+const dbConfig = config.get('dbConfig');
 
 const connectionData = {
     user: dbConfig.user,

@@ -1,9 +1,8 @@
 import { Router } from 'express'
 import CompaniesController from '../controllers/CompaniesController'
 import UsersController from '../controllers/UsersController'
-import middlewares from '../middlewares/middlewares'
+import {isLoggedIn} from '../middlewares/middlewares'
 
-const isLoggedIn = middlewares.isLoggedIn
 const router = new Router()
 
 /**
@@ -108,7 +107,7 @@ router.get('/companies/:id', isLoggedIn, CompaniesController.view)
  *       "error": "message"
  *     }
  */
-router.delete('/companies/:id', isLoggedIn, CompaniesController.delete)
+router.delete('/companies/:id', isLoggedIn, CompaniesController.deleteRegister)
 
 /**
  * @api {put} /companies/:id Update a company
@@ -312,7 +311,7 @@ router.get('/users/:id', isLoggedIn, UsersController.view)
  *       "error": "message"
  *     }
  */
-router.delete('/users/:id', isLoggedIn, UsersController.delete)
+router.delete('/users/:id', isLoggedIn, UsersController.deleteRegister)
 
 /**
  * @api {put} /users/:id Update a user

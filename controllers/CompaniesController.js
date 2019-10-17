@@ -38,7 +38,7 @@ class CompaniesController {
         })
     }
 
-    static delete(request, response) {
+    static deleteRegister(request, response) {
         const id = request.params.id
         const sql = "DELETE FROM companies WHERE id = $1"
       

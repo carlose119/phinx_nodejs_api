@@ -66,7 +66,7 @@ class UsersController {
         })
     }
 
-    static delete(request, response) {
+    static deleteRegister(request, response) {
         const id = request.params.id
         const sql = "DELETE FROM users WHERE id = $1"
       
