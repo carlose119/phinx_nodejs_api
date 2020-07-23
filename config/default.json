@@ -1,0 +1,9 @@
+{
+  "dbConfig": {
+    "user": "postgres",
+    "host": "localhost",
+    "database": "phinx_nodejs_api",
+    "password": "12345",
+    "port": "5432"
+  }
+}
